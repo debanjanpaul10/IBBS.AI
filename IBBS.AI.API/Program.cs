@@ -9,6 +9,7 @@ namespace IBBS.AI.API
 {
     using IBBS.AI.Business.Contracts;
     using IBBS.AI.Business.Services;
+    using Microsoft.OpenApi.Models;
 
     /// <summary>
     /// Program class from where the execution starts
@@ -25,8 +26,8 @@ namespace IBBS.AI.API
             builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.development.json", optional: true)
                 .AddEnvironmentVariables();
-            
-            ConfigureServices(builder.Services);
+
+            ConfigureServices(builder.Services, builder.Configuration);
 
             var app = builder.Build();
             ConfigureApplication(app);
@@ -36,7 +37,7 @@ namespace IBBS.AI.API
         /// Configures the services.
         /// </summary>
         /// <param name="services">The services.</param>
-        public static void ConfigureServices(IServiceCollection services)
+        public static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthentication();
             services.AddControllers();
@@ -51,10 +52,27 @@ namespace IBBS.AI.API
                 });
             });
 
-            services.AddHttpClient<IHttpClientHelper, HttpClientHelper>(client => {
+            services.AddHttpClient<IHttpClientHelper, HttpClientHelper>(client =>
+            {
                 client.Timeout = TimeSpan.FromMinutes(3);
             });
             services.AddScoped<IBulletinAIServices, BulletinAIServices>();
+
+            services.AddSingleton(configuration);
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "IBBS.AI API",
+                    Version = "v1",
+                    Description = "API Documentation for IBBS.AI",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Debanjan Paul",
+                        Email = "debanjanpaul10@gmail.com"
+                    }
+                });
+            });
         }
 
         /// <summary>
@@ -66,6 +84,12 @@ namespace IBBS.AI.API
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "IBBS.AI API v1");
+                    c.RoutePrefix = "swaggerui";
+                });
             }
 
             app.UseHttpsRedirection();
