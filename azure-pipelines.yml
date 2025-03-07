@@ -14,7 +14,7 @@ steps:
   displayName: 'Dotnet SDK'
   inputs:
     packageType: 'sdk'
-    version: '9.x.x'
+    version: '9.0.x'
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: DotNetCoreCLI@2
