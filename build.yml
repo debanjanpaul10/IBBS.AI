@@ -1,0 +1,39 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+  appName: 'IBBS.AI'
+
+steps:
+- task: 'Dotnet SDK'
+  inputs:
+    packageType: 'sdk'
+    version: '9.x.x'
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
+- task: 'Dotnet Restore'
+  inputs:
+    command: 'restore'
+    projects: '**/*.csproj'
+
+- task: 'Dotnet Build'
+  inputs: 
+    command: 'build'
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
+- task: 'Dotnet Publish'
+  inputs:
+    command: 'publish'
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+
+- task: 'Publish Build Artifacts'
+  inputs:
+    PathToPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
