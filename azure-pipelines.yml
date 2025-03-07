@@ -6,7 +6,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  appName: 'IBBS.AI'
+  appName: 'IBBS.AI Build'
 
 steps:
 - task: UseDotNet@2
