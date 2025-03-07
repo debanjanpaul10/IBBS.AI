@@ -9,30 +9,35 @@ variables:
   appName: 'IBBS.AI'
 
 steps:
-- task: 'Dotnet SDK'
+- task: UseDotNet@2
+  displayName: 'Dotnet SDK'
   inputs:
     packageType: 'sdk'
     version: '9.x.x'
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
-- task: 'Dotnet Restore'
+- task: DotNetCoreCLI@2
+  displayName: 'Dotnet Restore'
   inputs:
     command: 'restore'
     projects: '**/*.csproj'
 
-- task: 'Dotnet Build'
+- task: DotNetCoreCLI@2
+  displayName: 'Dotnet Build'
   inputs: 
     command: 'build'
     projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
 
-- task: 'Dotnet Publish'
+- task: DotNetCoreCLI@2
+  displayName: 'Dotnet Publish'
   inputs:
     command: 'publish'
     projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
 
-- task: 'Publish Build Artifacts'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifacts'
   inputs:
     PathToPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
