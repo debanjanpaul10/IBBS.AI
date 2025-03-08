@@ -53,6 +53,21 @@ namespace IBBS.AI.Shared.Constants
         /// </summary>
         public const string AiAPIKeyMissingMessage = "The AI Api Key is missing in configuration.";
 
+        /// <summary>
+        /// The missing configuration message.
+        /// </summary>
+        public const string MissingConfigurationMessage = "The Configuration Key is missing";
+
+        /// <summary>
+        /// The user unauthorized message constant
+        /// </summary>
+        public const string UserUnauthorizedMessageConstant = "User Not Authorized";
+
+        /// <summary>
+        /// The ai services down message constant.
+        /// </summary>
+        public const string AiServicesDownMessageConstant = "Our AI Services are down right now. Please try again after sometime.";
+
         #endregion
     }
 }
