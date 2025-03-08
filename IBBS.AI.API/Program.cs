@@ -7,9 +7,11 @@
 
 namespace IBBS.AI.API
 {
+    using Azure.Identity;
     using IBBS.AI.API.Configuration;
     using IBBS.AI.Business.Contracts;
     using IBBS.AI.Business.Services;
+    using IBBS.AI.Shared.Constants;
     using Microsoft.OpenApi.Models;
 
     /// <summary>
@@ -28,8 +30,15 @@ namespace IBBS.AI.API
                 .AddJsonFile("appsettings.development.json", optional: true)
                 .AddEnvironmentVariables();
 
-            builder.AddAzureServices();
-            builder.ConfigureAzureApplicationInsights();
+            var miCredentials = builder.Configuration[ConfigurationConstants.ManagedIdentityClientIdConstant];
+            var credentials = builder.Environment.IsDevelopment()
+                ? new DefaultAzureCredential()
+                : new DefaultAzureCredential(new DefaultAzureCredentialOptions
+                {
+                    ManagedIdentityClientId = miCredentials,
+                });
+
+            builder.AddAzureServices(credentials);
 
             ConfigureServices(builder.Services, builder.Configuration);
 
@@ -89,7 +98,8 @@ namespace IBBS.AI.API
                 app.MapOpenApi();
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => {
+                app.UseSwaggerUI(c =>
+                {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "IBBS.AI API v1");
                     c.RoutePrefix = "swaggerui";
                 });

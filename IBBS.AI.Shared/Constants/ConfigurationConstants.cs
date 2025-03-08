@@ -51,5 +51,10 @@ namespace IBBS.AI.Shared.Constants
         /// The app insights instrumentation key constant.
         /// </summary>
         public const string AppInsightsInstrumentationKeyConstant = "AppInsights-InstrumentationKey";
+
+        /// <summary>
+        /// The managed identity client id constant.
+        /// </summary>
+        public const string ManagedIdentityClientIdConstant = "ManagedIdentityClientId";
     }
 }
