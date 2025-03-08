@@ -47,40 +47,58 @@ namespace IBBS.AI.Business.Services
         /// <exception cref="Exception">Exception error.</exception>
         public async Task<string> RewriteTextAsync(string story)
         {
-            var path = $"{AppContext.BaseDirectory}/{ConfigurationConstants.PluginsDirectory}/" +
-                $"{ConfigurationConstants.RewriteUserStoryPlugin}/{ConfigurationConstants.PromptNameTextFile}";
+            this._logger.LogInformation(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodStart, nameof(RewriteTextAsync), DateTime.UtcNow));
 
+            if (string.IsNullOrEmpty(story))
+            {
+                var exception = new Exception(LoggingConstants.StoryCannotBeEmptyMessage);
+                this._logger.LogError(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodFailed, nameof(RewriteTextAsync), DateTime.UtcNow, exception.Message));
+
+                throw exception;
+            }
+
+            var path = $"{AppContext.BaseDirectory}/{PromptsConstants.PluginsDirectory}/{PromptsConstants.RewriteUserStoryPlugin}/{PromptsConstants.PromptNameTextFile}";
             if (string.IsNullOrEmpty(path))
             {
-                throw new ArgumentNullException(LoggingConstants.PluginNotFoundMessage);
+                var exception = new Exception(LoggingConstants.PluginNotFoundMessage);
+                this._logger.LogError(exception, exception.Message);
+                throw exception;
+            }
+
+            var prompt = await File.ReadAllTextAsync(path).ConfigureAwait(false);
+            var modifiedContent = prompt.Replace(PromptsConstants.UserInputInPrompt, story);
+
+            var geminiAiRequest = PrepareGeminiAiRequestDTO(modifiedContent);
+            var geminiAiRequestJson = JsonConvert.SerializeObject(geminiAiRequest);
+
+            var geminiApiKey = this._configuration[ConfigurationConstants.GeminiAPIKeyConstant];
+            var geminiApiUrl = this._configuration[ConfigurationConstants.GeminiAIApiUrlConstant];
+            if (string.IsNullOrEmpty(geminiApiKey) || string.IsNullOrEmpty(geminiApiUrl))
+            {
+                var exception = new Exception(LoggingConstants.AiAPIKeyMissingMessage);
+                this._logger.LogError(exception, exception.Message);
+                throw exception;
             }
 
             try
             {
-                var prompt = await File.ReadAllTextAsync(path).ConfigureAwait(false);
-                var modifiedContent = prompt.Replace(ConfigurationConstants.UserInputInPrompt, story);
-
-                var geminiAiRequest = PrepareGeminiAiRequestDTO(modifiedContent);
-                var geminiAiRequestJson = JsonConvert.SerializeObject(geminiAiRequest);
-
-                var geminiApiKey = this._configuration[ConfigurationConstants.GeminiAPIKeyConstant];
-                if (string.IsNullOrEmpty(geminiApiKey))
-                {
-                    throw new ArgumentNullException(LoggingConstants.AiAPIKeyMissingMessage);
-                }
-
-                var geminiAiApiUrl = ConfigurationConstants.GeminiAIApiUrl + geminiApiKey;
+                var geminiAiApiUrl = geminiApiUrl + geminiApiKey;
                 var response = await this._httpClientHelper.PostAsync(geminiAiApiUrl, geminiAiRequestJson).ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
-                
+
                 var responseBody = await response.Content.ReadAsStringAsync();
                 var aiResponse = PrepareResponseData(responseBody);
                 return aiResponse;
             }
             catch (Exception ex)
             {
+                var exception = new Exception(LoggingConstants.AiServicesDownMessageConstant);
                 this._logger.LogError(ex, string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodFailed, nameof(RewriteTextAsync), DateTime.UtcNow, ex.Message));
-                throw;
+                throw exception;
+            }
+            finally
+            {
+                this._logger.LogInformation(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodEnd, nameof(RewriteTextAsync), DateTime.UtcNow));
             }
         }
 

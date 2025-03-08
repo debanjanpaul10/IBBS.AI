@@ -1,0 +1,5 @@
+{
+    "x-antiforgery-token-bulletin-ai": "<GENERATE_TOKEN>",
+    "GeminiAPIKey": "<GET_FROM_GOOGLE_GEMINI_API>",
+    "AppConfigurationEndpoint": "https://appcs-internet-bulletin-service.azconfig.io"
+}

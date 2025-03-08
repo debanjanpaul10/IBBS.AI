@@ -1,8 +1,8 @@
 ﻿// *********************************************************************************
-//	<copyright file="AiBaseController.cs" company="Personal">
+//	<copyright file="BulletinAiController.cs" company="Personal">
 //		Copyright (c) 2025 Personal
 //	</copyright>
-// <summary>The IBBS AI Base Controller Class.</summary>
+// <summary>The Bulletin AI Controller Class.</summary>
 // *********************************************************************************
 
 namespace IBBS.AI.API.Controllers
@@ -13,13 +13,15 @@ namespace IBBS.AI.API.Controllers
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
-	/// The IBBS AI Base Controller Class.
+	/// The Bulletin AI Controller Class.
 	/// </summary>
     /// <param name="bulletinAIServices">The Bulletin AI Services</param>
     /// <param name="logger">The logger</param>
+    /// <param name="configuration">The Configuration</param>
     [ApiController]
     [Route(RouteConstants.AiBase_RoutePrefix)]
-    public class AiBaseController(IBulletinAIServices bulletinAIServices, ILogger<AiBaseController> logger)
+    public class BulletinAiController(
+        IBulletinAIServices bulletinAIServices, ILogger<BulletinAiController> logger, IConfiguration configuration) : BaseController(configuration)
     {
         /// <summary>
         /// The bulletin ai services.
@@ -29,7 +31,7 @@ namespace IBBS.AI.API.Controllers
         /// <summary>
         /// The logger.
         /// </summary>
-        private readonly ILogger<AiBaseController> _logger = logger;
+        private readonly ILogger<BulletinAiController> _logger = logger;
 
         /// <summary>
         /// Rewrites the text async.
@@ -39,36 +41,33 @@ namespace IBBS.AI.API.Controllers
         /// <exception cref="Exception"></exception>
         [HttpPost]
         [Route(RouteConstants.RewriteText_Route)]
-        public async Task<string> RewriteTextAsync([FromBody] string story)
+        public async Task<IActionResult> RewriteTextAsync([FromBody] string story)
         {
             try
             {
                 this._logger.LogInformation(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodStart, nameof(RewriteTextAsync), DateTime.UtcNow));
-                if (string.IsNullOrEmpty(story))
+                if (this.IsAuthorized())
                 {
-                    var exception = new Exception(LoggingConstants.StoryCannotBeEmptyMessage);
-                    this._logger.LogError(string.Format(
-                        CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodFailed, nameof(RewriteTextAsync), DateTime.UtcNow, exception.Message));
-                    throw exception;
+                    var result = await this._bulletinAiServices.RewriteTextAsync(story).ConfigureAwait(false);
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        var exception = new Exception(LoggingConstants.AiServicesDownMessage);
+                        this._logger.LogError(string.Format(
+                            CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodFailed, nameof(RewriteTextAsync), DateTime.UtcNow, exception.Message));
+                        throw exception;
+                    }
+                    else
+                    {
+                        return this.HandleSuccessResult(result);
+                    }
                 }
 
-                var result = await this._bulletinAiServices.RewriteTextAsync(story).ConfigureAwait(false);
-                if (string.IsNullOrEmpty(result))
-                {
-                    var exception = new Exception(LoggingConstants.AiServicesDownMessage);
-                    this._logger.LogError(string.Format(
-                        CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodFailed, nameof(RewriteTextAsync), DateTime.UtcNow, exception.Message));
-                    throw exception;
-                }
-                else
-                {
-                    return result;
-                }
+                return this.HandleUnAuthorizedRequest();
             }
             catch (Exception ex)
             {
                 this._logger.LogError(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodFailed, nameof(RewriteTextAsync), DateTime.UtcNow, ex.Message));
-                throw;
+                return this.BadRequest(ex.Message);
             }
             finally
             {
