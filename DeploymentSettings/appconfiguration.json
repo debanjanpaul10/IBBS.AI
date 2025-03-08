@@ -1,0 +1,5 @@
+{
+    "x-antiforgery-token-bulletin-ai": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXF1ZXN0Rm9yIjoiQnVsbGV0aW4uQUkiLCJzb3VyY2UiOiJJQkJTLkFQSSIsImlzVXNlciI6ZmFsc2V9.ZeJIoou7nsIS9gTeUDwnjOyXoTgaSSwuR7XLlVKwWs8",
+    "GeminiAPIKey": "AIzaSyA0pkTulMx3McLn3LJyej5f8AobUbv5gcY",
+    "AppConfigurationEndpoint": "https://appcs-internet-bulletin-service.azconfig.io"
+}

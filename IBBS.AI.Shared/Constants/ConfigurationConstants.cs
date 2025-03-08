@@ -13,11 +13,6 @@ namespace IBBS.AI.Shared.Constants
     public static class ConfigurationConstants
     {
         /// <summary>
-        /// The azure open ai endpoint constant.
-        /// </summary>
-        public const string AzureOpenAiEndpointConstant = "AzureOpenAiEndpoint";
-
-        /// <summary>
         /// The gemini api key constant.
         /// </summary>
         public const string GeminiAPIKeyConstant = "GeminiAPIKey";
