@@ -62,7 +62,6 @@ namespace IBBS.AI.API
             });
             services.AddScoped<IBulletinAIServices, BulletinAIServices>();
 
-            services.AddSingleton(configuration);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
