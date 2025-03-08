@@ -67,7 +67,7 @@ namespace IBBS.AI.API.Controllers
             catch (Exception ex)
             {
                 this._logger.LogError(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodFailed, nameof(RewriteTextAsync), DateTime.UtcNow, ex.Message));
-                throw;
+                return this.BadRequest(ex.Message);
             }
             finally
             {

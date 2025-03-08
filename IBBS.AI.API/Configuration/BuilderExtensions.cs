@@ -22,7 +22,7 @@ namespace IBBS.AI.API.Configuration
         /// <param name="builder">The builder.</param>
         /// <param name="credential">The credential.</param>
         /// <exception cref="InvalidOperationException">InvalidOperationException error.</exception>
-        public static void AddAzureServices(this WebApplicationBuilder builder, DefaultAzureCredential credential)
+        public static void AddAzureServices(this WebApplicationBuilder builder)
         {
             var appConfigurationEndpoint = builder.Configuration[ConfigurationConstants.AppConfigurationEndpointKeyConstant];
             if (string.IsNullOrEmpty(appConfigurationEndpoint))
@@ -32,10 +32,10 @@ namespace IBBS.AI.API.Configuration
 
             builder.Configuration.AddAzureAppConfiguration(options =>
             {
-                options.Connect(new Uri(appConfigurationEndpoint), credential)
+                options.Connect(new Uri(appConfigurationEndpoint), new DefaultAzureCredential())
                 .Select(KeyFilter.Any).ConfigureKeyVault(configure =>
                 {
-                    configure.SetCredential(credential);
+                    configure.SetCredential(new DefaultAzureCredential());
                 });
             });
         }

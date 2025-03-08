@@ -25,7 +25,7 @@ namespace IBBS.AI.Shared.Constants
         /// <summary>
         /// The gemini ai api url.
         /// </summary>
-        public const string GeminiAIApiUrlConstant = "GeminiApiUrl";
+        public const string GeminiAIApiUrlConstant = "GeminiAIApiUrl";
 
         /// <summary>
         /// The bulletin ai token constant.

@@ -29,8 +29,7 @@ namespace IBBS.AI.API
                 .AddJsonFile("appsettings.development.json", optional: true)
                 .AddEnvironmentVariables();
 
-            var credential = new DefaultAzureCredential();
-            builder.AddAzureServices(credential);
+            builder.AddAzureServices();
 
             ConfigureServices(builder.Services, builder.Configuration);
 
