@@ -7,6 +7,8 @@
 
 namespace IBBS.AI.API
 {
+    using Azure.Identity;
+    using IBBS.AI.API.Configuration;
     using IBBS.AI.Business.Contracts;
     using IBBS.AI.Business.Services;
     using Microsoft.OpenApi.Models;
@@ -26,6 +28,9 @@ namespace IBBS.AI.API
             builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.development.json", optional: true)
                 .AddEnvironmentVariables();
+
+            var credential = new DefaultAzureCredential();
+            builder.AddAzureServices(credential);
 
             ConfigureServices(builder.Services, builder.Configuration);
 
