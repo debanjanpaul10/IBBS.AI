@@ -46,5 +46,15 @@ namespace IBBS.AI.Shared.Constants
         /// The bulletin ai antiforgery token constant.
         /// </summary>
         public const string BulletinAIAntiforgeryTokenConstant = "x-antiforgery-token-bulletin-ai";
+
+        /// <summary>
+        /// The app insights instrumentation key constant.
+        /// </summary>
+        public const string AppInsightsInstrumentationKeyConstant = "AppInsights-InstrumentationKey";
+
+        /// <summary>
+        /// The managed identity client id constant.
+        /// </summary>
+        public const string ManagedIdentityClientIdConstant = "ManagedIdentityClientId";
     }
 }
