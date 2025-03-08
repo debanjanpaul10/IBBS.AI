@@ -9,6 +9,7 @@ namespace IBBS.AI.API.Configuration
 {
     using Azure.Identity;
     using IBBS.AI.Shared.Constants;
+    using Microsoft.ApplicationInsights.AspNetCore.Extensions;
     using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 
     /// <summary>
@@ -38,6 +39,17 @@ namespace IBBS.AI.API.Configuration
                     configure.SetCredential(new DefaultAzureCredential());
                 });
             });
+        }
+
+        /// <summary>
+        /// Configures azure application insights.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        public static void ConfigureAzureApplicationInsights(this WebApplicationBuilder builder)
+        {
+            var appInsightsTelemetryConnection = builder.Configuration[ConfigurationConstants.AppInsightsInstrumentationKeyConstant];
+            var options = new ApplicationInsightsServiceOptions { ConnectionString = appInsightsTelemetryConnection };
+            builder.Services.AddApplicationInsightsTelemetry(options);
         }
     }
 }

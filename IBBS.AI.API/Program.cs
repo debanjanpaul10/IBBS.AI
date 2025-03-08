@@ -7,7 +7,6 @@
 
 namespace IBBS.AI.API
 {
-    using Azure.Identity;
     using IBBS.AI.API.Configuration;
     using IBBS.AI.Business.Contracts;
     using IBBS.AI.Business.Services;
@@ -30,6 +29,7 @@ namespace IBBS.AI.API
                 .AddEnvironmentVariables();
 
             builder.AddAzureServices();
+            builder.ConfigureAzureApplicationInsights();
 
             ConfigureServices(builder.Services, builder.Configuration);
 
