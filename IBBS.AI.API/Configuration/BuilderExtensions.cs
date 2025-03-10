@@ -9,6 +9,7 @@ namespace IBBS.AI.API.Configuration
 {
     using Azure.Identity;
     using IBBS.AI.Shared.Constants;
+    using static IBBS.AI.Shared.Constants.ConfigurationConstants;
     using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 
     /// <summary>
@@ -29,12 +30,12 @@ namespace IBBS.AI.API.Configuration
             {
                 throw new InvalidOperationException(LoggingConstants.MissingConfigurationMessage);
             }
-
             
             builder.Configuration.AddAzureAppConfiguration(options =>
             {
                 options.Connect(new Uri(appConfigurationEndpoint), credentials)
-                .Select(KeyFilter.Any).ConfigureKeyVault(configure =>
+                .Select(KeyFilter.Any).Select(KeyFilter.Any, BaseConfigurationAppConfigKeyConstant).Select(KeyFilter.Any, IbbsAIAppConfigKeyConstant)
+                .ConfigureKeyVault(configure =>
                 {
                     configure.SetCredential(credentials);
                 });
