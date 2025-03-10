@@ -42,10 +42,6 @@ stages:
                       projects: "**/*.csproj"
                       arguments: "--configuration $(buildConfiguration) --output $(artifactStagingDirectory)"
 
-    - stage: "IBBS_AI_CD"
-      jobs:
-          - job: API_Deploy
-            steps:
                 - task: PublishBuildArtifacts@1
                   displayName: "Publish Artifacts"
                   inputs:
@@ -53,10 +49,3 @@ stages:
                       ArtifactName: "drop"
                       publishLocation: "Container"
 
-                - task: AzureRmWebAppDeployment@5
-                  inputs:
-                      ConnectionType: "AzureRM"
-                      azureSubscription: "IBBS-ADO"
-                      appType: "webApp"
-                      WebAppName: "app-internet-bulletin-ai"
-                      packageForLinux: "$(System.DefaultWorkingDirectory)/**/*.zip"
