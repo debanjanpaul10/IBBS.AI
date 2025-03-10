@@ -56,5 +56,15 @@ namespace IBBS.AI.Shared.Constants
         /// The managed identity client id constant.
         /// </summary>
         public const string ManagedIdentityClientIdConstant = "ManagedIdentityClientId";
+
+        /// <summary>
+        /// The base configuration app config key constant.
+        /// </summary>
+        public const string BaseConfigurationAppConfigKeyConstant = "BaseConfiguration";
+
+        /// <summary>
+        /// The ibbs ai app config key constant.
+        /// </summary>
+        public const string IbbsAIAppConfigKeyConstant = "IBBS.AI";
     }
 }
