@@ -10,6 +10,7 @@ namespace IBBS.AI.API.Controllers
     using System.Globalization;
     using IBBS.AI.Business.Contracts;
     using IBBS.AI.Shared.Constants;
+    using IBBS.AI.Shared.DTO;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -36,19 +37,19 @@ namespace IBBS.AI.API.Controllers
         /// <summary>
         /// Rewrites the text async.
         /// </summary>
-        /// <param name="story">The story that user presents.</param>
+        /// <param name="requestDto">The rewrite request dto.</param>
         /// <returns>The AI rewritten story.</returns>
         /// <exception cref="Exception"></exception>
         [HttpPost]
         [Route(RouteConstants.RewriteText_Route)]
-        public async Task<IActionResult> RewriteTextAsync([FromBody] string story)
+        public async Task<IActionResult> RewriteTextAsync(RewriteRequestDTO requestDto)
         {
             try
             {
                 this._logger.LogInformation(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodStart, nameof(RewriteTextAsync), DateTime.UtcNow));
                 if (this.IsAuthorized())
                 {
-                    var result = await this._bulletinAiServices.RewriteTextAsync(story).ConfigureAwait(false);
+                    var result = await this._bulletinAiServices.RewriteTextAsync(requestDto.Story).ConfigureAwait(false);
                     if (string.IsNullOrEmpty(result))
                     {
                         var exception = new Exception(LoggingConstants.AiServicesDownMessage);
