@@ -35,6 +35,7 @@ stages:
                       organization: "debanjanorg"
                       scannerMode: "dotnet"
                       projectKey: "ibbs-ai"
+                      projects: "IBBS.AI.Business/IBBS.AI.Business.csproj"
 
                 - task: DotNetCoreCLI@2
                   displayName: "Dotnet Build"
@@ -47,6 +48,7 @@ stages:
                   displayName: "Run SonarQube Analysis"
                   inputs:
                       jdkversion: "JAVA_HOME_17_X64"
+                      projects: "IBBS.AI.Business/IBBS.AI.Business.csproj"
 
                 - task: DotNetCoreCLI@2
                   displayName: "Dotnet Publish"
