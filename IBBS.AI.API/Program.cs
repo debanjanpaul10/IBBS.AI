@@ -9,6 +9,7 @@ namespace IBBS.AI.API
 {
     using Azure.Identity;
     using IBBS.AI.API.Configuration;
+    using IBBS.AI.API.Middleware;
     using IBBS.AI.Business.Contracts;
     using IBBS.AI.Business.Services;
     using IBBS.AI.Shared.Constants;
@@ -85,6 +86,8 @@ namespace IBBS.AI.API
                     }
                 });
             });
+            services.AddExceptionHandler<GlobalExceptionHandler>();
+            services.AddProblemDetails();
         }
 
         /// <summary>
@@ -105,6 +108,7 @@ namespace IBBS.AI.API
                 });
             }
 
+            app.UseExceptionHandler();
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
