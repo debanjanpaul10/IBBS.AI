@@ -34,6 +34,13 @@ stages:
                       command: "build"
                       projects: "**/*.csproj"
                       arguments: "--configuration $(buildConfiguration)"
+                      
+                - task: SonarCloudPrepare@3
+                  inputs:
+                    SonarQube: 'IBBS.AI Sonar'
+                    organization: 'debanjanorg'
+                    scannerMode: 'dotnet'
+                    projectKey: 'ibbs-ai'
 
                 - task: DotNetCoreCLI@2
                   displayName: "Dotnet Publish"
