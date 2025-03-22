@@ -31,10 +31,10 @@ stages:
                 - task: SonarCloudPrepare@3
                   displayName: "Prepare Sonarqube analysis"
                   inputs:
-                      SonarQube: 'IBBS.AI Sonar'
-                      organization: 'debanjanorg'
-                      scannerMode: 'dotnet'
-                      projectKey: 'ibbs-ai'
+                      SonarQube: "IBBS.AI Sonar"
+                      organization: "debanjanorg"
+                      scannerMode: "dotnet"
+                      projectKey: "ibbs-ai"
 
                 - task: DotNetCoreCLI@2
                   displayName: "Dotnet Build"
@@ -46,7 +46,7 @@ stages:
                 - task: SonarCloudAnalyze@3
                   displayName: "Run SonarQube Analysis"
                   inputs:
-                    jdkversion: 'JAVA_HOME_17_X64'
+                      jdkversion: "JAVA_HOME_17_X64"
 
                 - task: DotNetCoreCLI@2
                   displayName: "Dotnet Publish"
@@ -61,4 +61,3 @@ stages:
                       PathToPublish: "$(artifactStagingDirectory)"
                       ArtifactName: "drop"
                       publishLocation: "Container"
-
