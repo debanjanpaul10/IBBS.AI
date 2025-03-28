@@ -13,12 +13,13 @@ namespace IBBS.AI.API
     using IBBS.AI.Business.Contracts;
     using IBBS.AI.Business.Services;
     using IBBS.AI.Shared.Constants;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.OpenApi.Models;
 
     /// <summary>
     /// Program class from where the execution starts
     /// </summary>
-    public class Program
+    public static class Program
     {
         /// <summary>
 		/// Defines the entry point of the application.
@@ -40,20 +41,26 @@ namespace IBBS.AI.API
                 });
 
             builder.AddAzureServices(credentials);
-
-            ConfigureServices(builder.Services, builder.Configuration);
+            builder.Services.ConfigureServices();
 
             var app = builder.Build();
-            ConfigureApplication(app);
+            app.ConfigureApplication();
         }
 
         /// <summary>
         /// Configures the services.
         /// </summary>
         /// <param name="services">The services.</param>
-        public static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureServices(this IServiceCollection services)
         {
-            services.AddAuthentication();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => {
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateLifetime = true
+                    };
+                });
             services.AddControllers();
             services.AddOpenApi();
             services.AddCors(options =>
@@ -71,6 +78,7 @@ namespace IBBS.AI.API
                 client.Timeout = TimeSpan.FromMinutes(3);
             });
             services.AddScoped<IBulletinAIServices, BulletinAIServices>();
+            services.AddTransient<TokenHelper>();
 
             services.AddSwaggerGen(c =>
             {
@@ -94,7 +102,7 @@ namespace IBBS.AI.API
         /// Configures the application.
         /// </summary>
         /// <param name="app">The application.</param>
-        public static void ConfigureApplication(WebApplication app)
+        public static void ConfigureApplication(this WebApplication app)
         {
             if (app.Environment.IsDevelopment())
             {

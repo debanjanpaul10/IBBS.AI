@@ -7,6 +7,7 @@
 
 namespace IBBS.AI.Business.Services
 {
+    using System.Net.Http.Headers;
     using System.Text;
     using System.Threading.Tasks;
     using IBBS.AI.Business.Contracts;
@@ -18,7 +19,8 @@ namespace IBBS.AI.Business.Services
     /// </summary>
     /// <param name="httpClient">The HTTP client.</param>
     /// <param name="logger">The Logger.</param>
-    public class HttpClientHelper(HttpClient httpClient, ILogger<HttpClientHelper> logger) : IHttpClientHelper
+    /// <param name="tokenHelper">The Token Helper</param>
+    public class HttpClientHelper(HttpClient httpClient, ILogger<HttpClientHelper> logger, TokenHelper tokenHelper) : IHttpClientHelper
     {
         /// <summary>
         /// The http client.
@@ -31,6 +33,11 @@ namespace IBBS.AI.Business.Services
         private readonly ILogger<HttpClientHelper> _logger = logger;
 
         /// <summary>
+        /// The token helper.
+        /// </summary>
+        private readonly TokenHelper _tokenHelper = tokenHelper;
+
+        /// <summary>
         /// Gets async.
         /// </summary>
         /// <param name="url">The url.</param>
@@ -38,6 +45,9 @@ namespace IBBS.AI.Business.Services
         {
             try
             {
+                var token = await this._tokenHelper.GetAzureAdTokenAsync();
+                this._httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(ConfigurationConstants.BearerConstant, token);
+                
                 var response = await this._httpClient.GetAsync(new Uri(url)).ConfigureAwait(false);
                 return response;
             }
@@ -57,6 +67,9 @@ namespace IBBS.AI.Business.Services
         {
             try
             {
+                var token = await this._tokenHelper.GetAzureAdTokenAsync();
+                this._httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(ConfigurationConstants.BearerConstant, token);
+                
                 var content = new StringContent(data, Encoding.UTF8, ConfigurationConstants.ApplicationJsonConstant);
                 var response = await this._httpClient.PostAsync(url, content).ConfigureAwait(false);
                 return response;

@@ -43,11 +43,6 @@ namespace IBBS.AI.Shared.Constants
         public const string ApplicationJsonConstant = "application/json";
 
         /// <summary>
-        /// The bulletin ai antiforgery token constant.
-        /// </summary>
-        public const string BulletinAIAntiforgeryTokenConstant = "x-antiforgery-token-bulletin-ai";
-
-        /// <summary>
         /// The app insights instrumentation key constant.
         /// </summary>
         public const string AppInsightsInstrumentationKeyConstant = "AppInsights-InstrumentationKey";
@@ -66,5 +61,35 @@ namespace IBBS.AI.Shared.Constants
         /// The ibbs ai app config key constant.
         /// </summary>
         public const string IbbsAIAppConfigKeyConstant = "IBBS.AI";
+
+        /// <summary>
+        /// The tenant id constant.
+        /// </summary>
+        public const string TenantIdConstant = "TenantId";
+
+        /// <summary>
+        /// The client id constant.
+        /// </summary>
+        public const string ClientIdConstant = "ClientId";
+
+        /// <summary>
+        /// The client secret constant.
+        /// </summary>
+        public const string ClientSecretConstant = "ClientSecret";
+
+        /// <summary>
+        /// The azure ad token request url constant.
+        /// </summary>
+        public const string AzureAdTokenRequestUrlConstant = "AzureAdUrl";
+
+        /// <summary>
+        /// The resource constant.
+        /// </summary>
+        public const string ResourceConstant = "api://{0}/.default";
+
+        /// <summary>
+        /// The bearer constant.
+        /// </summary>
+        public const string BearerConstant = "Bearer";
     }
 }
