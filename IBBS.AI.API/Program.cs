@@ -41,7 +41,7 @@ namespace IBBS.AI.API
                 });
 
             builder.AddAzureServices(credentials);
-            builder.Services.ConfigureServices();
+            builder.Services.ConfigureServices(builder.Configuration);
 
             var app = builder.Build();
             app.ConfigureApplication();
@@ -51,7 +51,7 @@ namespace IBBS.AI.API
         /// Configures the services.
         /// </summary>
         /// <param name="services">The services.</param>
-        public static void ConfigureServices(this IServiceCollection services)
+        public static void ConfigureServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => {
@@ -73,12 +73,8 @@ namespace IBBS.AI.API
                 });
             });
 
-            services.AddHttpClient<IHttpClientHelper, HttpClientHelper>(client =>
-            {
-                client.Timeout = TimeSpan.FromMinutes(3);
-            });
+            services.AddSingleton(KernelFactory.CreateKernel(configuration));
             services.AddScoped<IBulletinAIServices, BulletinAIServices>();
-            services.AddTransient<TokenHelper>();
 
             services.AddSwaggerGen(c =>
             {

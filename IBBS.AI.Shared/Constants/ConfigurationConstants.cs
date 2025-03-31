@@ -91,5 +91,10 @@ namespace IBBS.AI.Shared.Constants
         /// The bearer constant.
         /// </summary>
         public const string BearerConstant = "Bearer";
+
+        /// <summary>
+        /// The gemini ai model id constant.
+        /// </summary>
+        public const string GeminiAiModelIdConstant = "GeminiAiModelId";
     }
 }

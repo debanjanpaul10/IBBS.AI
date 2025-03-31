@@ -25,12 +25,12 @@ namespace IBBS.AI.API.Configuration
         /// <exception cref="InvalidOperationException">InvalidOperationException error.</exception>
         public static void AddAzureServices(this WebApplicationBuilder builder, DefaultAzureCredential credentials)
         {
-            var appConfigurationEndpoint = builder.Configuration[ConfigurationConstants.AppConfigurationEndpointKeyConstant];
+            var appConfigurationEndpoint = builder.Configuration[AppConfigurationEndpointKeyConstant];
             if (string.IsNullOrEmpty(appConfigurationEndpoint))
             {
                 throw new InvalidOperationException(LoggingConstants.MissingConfigurationMessage);
             }
-            
+
             builder.Configuration.AddAzureAppConfiguration(options =>
             {
                 options.Connect(new Uri(appConfigurationEndpoint), credentials)

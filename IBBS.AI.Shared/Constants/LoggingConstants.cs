@@ -93,6 +93,11 @@ namespace IBBS.AI.Shared.Constants
         /// </summary>
         public const string TokenExpiredMessageConstant = "Token has expired.";
 
+        /// <summary>
+        /// The plugins directory is missing.
+        /// </summary>
+        public const string PluginsDirectoryIsMissing = "Oops! The plugins directory has not been properly configured yet!";
+
         #endregion
     }
 }

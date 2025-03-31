@@ -28,13 +28,8 @@ namespace IBBS.AI.Shared.Constants
         public const string RewriteUserStoryPlugin = "RewriteUserStoryPlugin";
 
         /// <summary>
-        /// The prompt name text file.
+        /// The kernel arguments input constant.
         /// </summary>
-        public const string PromptNameTextFile = "skprompt.txt";
-
-        /// <summary>
-        /// The user input in prompt.
-        /// </summary>
-        public const string UserInputInPrompt = "{{$input}}";
+        public const string KernelArgumentsInputConstant = "input";
     }
 }
