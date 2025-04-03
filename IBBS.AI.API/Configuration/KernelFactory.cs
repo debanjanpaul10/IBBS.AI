@@ -9,6 +9,7 @@ namespace IBBS.AI.API.Configuration
 {
     using IBBS.AI.Shared.Constants;
     using Microsoft.SemanticKernel;
+    using Microsoft.SemanticKernel.Memory;
     using static IBBS.AI.Shared.Constants.ConfigurationConstants;
 
     /// <summary>
@@ -16,6 +17,23 @@ namespace IBBS.AI.API.Configuration
     /// </summary>
     public static class KernelFactory
     {
+#pragma warning disable SKEXP0001 
+#pragma warning disable SKEXP0050 
+        /// <summary>
+        /// Creates memory.
+        /// </summary>
+        /// <param name="configuration">The configuration.</param>
+        public static Func<IServiceProvider, ISemanticTextMemory> CreateMemory(IConfiguration configuration)
+        {
+            return provider =>
+            {
+                var memoryBuilder = new MemoryBuilder();
+                memoryBuilder.WithMemoryStore(new VolatileMemoryStore());
+
+                return memoryBuilder.Build();
+            };
+        }
+
         /// <summary>
         /// Creates kernel.
         /// </summary>
@@ -34,9 +52,14 @@ namespace IBBS.AI.API.Configuration
 
                     kernelBuilder.AddGoogleAIGeminiChatCompletion(modelId, apiKey);
                     kernelBuilder.AddGoogleAIEmbeddingGeneration(modelId, apiKey);
-                }
 
+                    kernelBuilder.Services.AddSingleton(CreateMemory(configuration));
+                }
                 var kernel = kernelBuilder.Build();
+
+                // Import Plugins
+                kernel.ImportPluginFromPromptDirectory(Path.Join(AppContext.BaseDirectory, PromptsConstants.PluginsDirectory));
+
                 return kernel;
             };
         }
