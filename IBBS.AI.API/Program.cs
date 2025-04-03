@@ -29,7 +29,7 @@ namespace IBBS.AI.API
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.development.json", optional: true)
+                .AddJsonFile(path: ConfigurationConstants.LocalAppsetingsFileName, optional: true)
                 .AddEnvironmentVariables();
 
             var miCredentials = builder.Configuration[ConfigurationConstants.ManagedIdentityClientIdConstant];
@@ -74,6 +74,7 @@ namespace IBBS.AI.API
             });
 
             services.AddSingleton(KernelFactory.CreateKernel(configuration));
+            services.AddSingleton(KernelFactory.CreateMemory(configuration));
             services.AddScoped<IBulletinAIServices, BulletinAIServices>();
 
             services.AddSwaggerGen(c =>
