@@ -1,6 +1,6 @@
 {
 	"schema": 1,
-	"service_id": "gpt-4",
+	"service_id": "gemini-2.0-flash",
 	"description": "Rewrite the user written text",
 	"execution_settings": {
 		"default": {

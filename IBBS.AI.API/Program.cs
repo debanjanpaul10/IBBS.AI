@@ -9,15 +9,17 @@ namespace IBBS.AI.API
 {
     using Azure.Identity;
     using IBBS.AI.API.Configuration;
+    using IBBS.AI.API.Middleware;
     using IBBS.AI.Business.Contracts;
     using IBBS.AI.Business.Services;
     using IBBS.AI.Shared.Constants;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.OpenApi.Models;
 
     /// <summary>
     /// Program class from where the execution starts
     /// </summary>
-    public class Program
+    public static class Program
     {
         /// <summary>
 		/// Defines the entry point of the application.
@@ -27,7 +29,7 @@ namespace IBBS.AI.API
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.development.json", optional: true)
+                .AddJsonFile(path: ConfigurationConstants.LocalAppsetingsFileName, optional: true)
                 .AddEnvironmentVariables();
 
             var miCredentials = builder.Configuration[ConfigurationConstants.ManagedIdentityClientIdConstant];
@@ -39,20 +41,26 @@ namespace IBBS.AI.API
                 });
 
             builder.AddAzureServices(credentials);
-
-            ConfigureServices(builder.Services, builder.Configuration);
+            builder.Services.ConfigureServices(builder.Configuration);
 
             var app = builder.Build();
-            ConfigureApplication(app);
+            app.ConfigureApplication();
         }
 
         /// <summary>
         /// Configures the services.
         /// </summary>
         /// <param name="services">The services.</param>
-        public static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAuthentication();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => {
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateLifetime = true
+                    };
+                });
             services.AddControllers();
             services.AddOpenApi();
             services.AddCors(options =>
@@ -65,10 +73,8 @@ namespace IBBS.AI.API
                 });
             });
 
-            services.AddHttpClient<IHttpClientHelper, HttpClientHelper>(client =>
-            {
-                client.Timeout = TimeSpan.FromMinutes(3);
-            });
+            services.AddSingleton(KernelFactory.CreateKernel(configuration));
+            services.AddSingleton(KernelFactory.CreateMemory(configuration));
             services.AddScoped<IBulletinAIServices, BulletinAIServices>();
 
             services.AddSwaggerGen(c =>
@@ -85,13 +91,15 @@ namespace IBBS.AI.API
                     }
                 });
             });
+            services.AddExceptionHandler<GlobalExceptionHandler>();
+            services.AddProblemDetails();
         }
 
         /// <summary>
         /// Configures the application.
         /// </summary>
         /// <param name="app">The application.</param>
-        public static void ConfigureApplication(WebApplication app)
+        public static void ConfigureApplication(this WebApplication app)
         {
             if (app.Environment.IsDevelopment())
             {
@@ -105,6 +113,7 @@ namespace IBBS.AI.API
                 });
             }
 
+            app.UseExceptionHandler();
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();
