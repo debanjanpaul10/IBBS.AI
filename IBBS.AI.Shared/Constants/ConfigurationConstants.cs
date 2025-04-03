@@ -96,5 +96,10 @@ namespace IBBS.AI.Shared.Constants
         /// The gemini ai model id constant.
         /// </summary>
         public const string GeminiAiModelIdConstant = "GeminiAiModelId";
+
+        /// <summary>
+        /// The local appsetings file name.
+        /// </summary>
+        public const string LocalAppsetingsFileName = "appsettings.development.json";
     }
 }
