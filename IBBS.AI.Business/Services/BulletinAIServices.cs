@@ -55,7 +55,7 @@ namespace IBBS.AI.Business.Services
                     [PromptsConstants.KernelArgumentsInputConstant] = story
                 };
                 
-                var responseFromAI = await this._kernel.InvokeAsync(PromptsConstants.PluginsDirectory, PromptsConstants.RewriteUserStoryPlugin, kernelArguments);
+                var responseFromAI = await this._kernel.InvokeAsync(PromptsConstants.RewritePlugins, PromptsConstants.RewriteUserStoryPlugin, kernelArguments);
                 return responseFromAI.ToString();
             }
             catch (Exception ex)
