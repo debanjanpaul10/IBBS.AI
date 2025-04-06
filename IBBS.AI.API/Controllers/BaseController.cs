@@ -19,7 +19,7 @@ namespace IBBS.AI.API.Controllers
     /// The Base Controller Class.
     /// </summary>
     /// <param name="configuration">The configuration</param>
-    public class BaseController(IConfiguration configuration, ILogger<BaseController> logger) : ControllerBase
+    public abstract class BaseController(IConfiguration configuration, ILogger<BaseController> logger) : ControllerBase
     {
         /// <summary>
         /// The configuration.
@@ -37,7 +37,7 @@ namespace IBBS.AI.API.Controllers
 		/// <returns>
 		///   <c>true</c> if this instance is authorized; otherwise, <c>false</c>.
 		/// </returns>
-        public bool IsAuthorized()
+        protected bool IsAuthorized()
         {
             try
             {
@@ -93,7 +93,7 @@ namespace IBBS.AI.API.Controllers
 		/// Handles the bad request.
 		/// </summary>
 		/// <returns>The unauthorized object result</returns>
-		public UnauthorizedObjectResult HandleUnAuthorizedRequest()
+		protected UnauthorizedObjectResult HandleUnAuthorizedRequest()
         {
             var responseData = new ResponseDTO()
             {
@@ -109,7 +109,7 @@ namespace IBBS.AI.API.Controllers
 		/// </summary>
 		/// <param name="response">The response.</param>
 		/// <returns>The ok object result</returns>
-		public OkObjectResult HandleSuccessResult(object response)
+		protected OkObjectResult HandleSuccessResult(object response)
         {
             var responseData = new ResponseDTO()
             {
@@ -125,7 +125,7 @@ namespace IBBS.AI.API.Controllers
 		/// </summary>
 		/// <param name="message">The message.</param>
 		/// <returns>The bad request result.</returns>
-		public BadRequestObjectResult HandleBadRequest(string message)
+		protected BadRequestObjectResult HandleBadRequest(string message)
         {
             var responseData = new ResponseDTO()
             {

@@ -40,33 +40,22 @@ namespace IBBS.AI.Business.Services
         /// <exception cref="Exception">Exception error.</exception>
         public async Task<string> RewriteTextAsync(string story)
         {
-            this._logger.LogInformation(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodStart, nameof(RewriteTextAsync), DateTime.UtcNow));
-
-            if (string.IsNullOrEmpty(story))
-            {
-                var exception = new Exception(LoggingConstants.StoryCannotBeEmptyMessage);
-                this._logger.LogError(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodFailed, nameof(RewriteTextAsync), DateTime.UtcNow, exception.Message));
-                throw exception;
-            }
-
-            var pluginsDirectory = Path.Join(AppContext.BaseDirectory, PromptsConstants.PluginsDirectory);
-            if (!Directory.Exists(pluginsDirectory))
-            {
-                var exception = new Exception(LoggingConstants.PluginsDirectoryIsMissing);
-                this._logger.LogError(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodFailed, nameof(RewriteTextAsync), DateTime.UtcNow, exception.Message));
-                throw exception;
-            }
-
-            var kernelArguments = new KernelArguments()
-            {
-                [PromptsConstants.KernelArgumentsInputConstant] = story
-            };
-
             try
             {
-                var pluginFunctions = this._kernel.ImportPluginFromPromptDirectory(pluginsDirectory);
-                var pluginFunction = pluginFunctions[PromptsConstants.RewriteUserStoryPlugin];
-                var responseFromAI = await this._kernel.InvokeAsync(pluginFunction, kernelArguments);
+                this._logger.LogInformation(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodStart, nameof(RewriteTextAsync), DateTime.UtcNow));
+                if (string.IsNullOrEmpty(story))
+                {
+                    var exception = new Exception(LoggingConstants.StoryCannotBeEmptyMessage);
+                    this._logger.LogError(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodFailed, nameof(RewriteTextAsync), DateTime.UtcNow, exception.Message));
+                    throw exception;
+                }
+
+                var kernelArguments = new KernelArguments()
+                {
+                    [PromptsConstants.KernelArgumentsInputConstant] = story
+                };
+                
+                var responseFromAI = await this._kernel.InvokeAsync(PromptsConstants.RewritePlugins, PromptsConstants.RewriteUserStoryPlugin, kernelArguments);
                 return responseFromAI.ToString();
             }
             catch (Exception ex)
