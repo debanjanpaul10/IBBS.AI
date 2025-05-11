@@ -65,6 +65,6 @@ namespace IBBS.AI.Shared.Constants
         /// <summary>
         /// The audience constant.
         /// </summary>
-        public const string Auth0AudienceConstant = "Auth0:Audience";
+        public const string Auth0AudienceConstant = "Auth0:AIAudience";
     }
 }
