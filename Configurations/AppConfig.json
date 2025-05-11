@@ -1,0 +1,77 @@
+{
+	"Azure": {
+		"AzureResources": [
+			{
+				"Name": "app-webapi-internet-bulletin-ai",
+				"ResourceType": "App Service"
+			},
+			{
+				"Name": "appcs-internet-bulletin-service",
+				"ResourceType": "App Configuration"
+			},
+			{
+				"Name": "mi-user-internet-bulletin",
+				"ResourceType": "User-assigned managed identity"
+			}
+		],
+		"AzureAppConfigSettings": [
+			{
+				"key": "Auth0:Audience",
+				"label": "BaseConfiguration",
+				"value": "29c5e88c-d9e5-4ba0-8275-24424bb62159",
+				"content_type": "",
+				"tags": {}
+			},
+			{
+				"key": "Auth0:Domain",
+				"label": "BaseConfiguration",
+				"value": "debanjans-lab.uk.auth0.com",
+				"content_type": "",
+				"tags": {}
+			},
+			{
+				"key": "GeminiAiModelId",
+				"label": "IBBS.AI",
+				"value": "gemini-2.0-flash",
+				"content_type": "",
+				"tags": {}
+			},
+			{
+				"key": "GeminiAPIKey",
+				"label": "IBBS.AI",
+				"value": "API Key value from Gemini app",
+				"content_type": "",
+				"tags": {}
+			},
+			{
+				"key": "ManagedIdentityClientId",
+				"label": "BaseConfiguration",
+				"value": "907bca1b-9901-4ec6-b33d-d08ea1c70283",
+				"content_type": "",
+				"tags": {}
+			}
+		],
+        "EnvironmentVariables": {
+            "app-webapi-internet-bulletin-ai": [
+                {
+					"name": "AppConfigurationEndpoint",
+					"value": "https://appcs-internet-bulletin-service.azconfig.io",
+					"slotSetting": true
+				},
+				{
+					"name": "ManagedIdentityClientId",
+					"value": "907bca1b-9901-4ec6-b33d-d08ea1c70283",
+					"slotSetting": true
+				}
+            ]
+        },
+        "Github": {
+            "GithubActionsSecrets": [
+                {
+                    "Name": "AZURE_WEBAPI_PUBLISH_PROFILE",
+                    "Value": "value from azure app service of api"
+                }
+            ]
+        }
+	}
+}
