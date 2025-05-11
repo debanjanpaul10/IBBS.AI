@@ -7,103 +7,17 @@
 
 namespace IBBS.AI.API.Controllers
 {
-    using System.Globalization;
-    using System.IdentityModel.Tokens.Jwt;
     using System.Net;
-    using IBBS.AI.Shared.Constants;
     using IBBS.AI.Shared.DTO;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using static IBBS.AI.Shared.Constants.ConfigurationConstants;
 
     /// <summary>
     /// The Base Controller Class.
     /// </summary>
-    /// <param name="configuration">The configuration</param>
-    public abstract class BaseController(IConfiguration configuration, ILogger<BaseController> logger) : ControllerBase
+    [Authorize]
+    public abstract class BaseController : ControllerBase
     {
-        /// <summary>
-        /// The configuration.
-        /// </summary>
-        private readonly IConfiguration _configuration = configuration;
-
-        /// <summary>
-        /// The _logger.
-        /// </summary>
-        private readonly ILogger<BaseController> _logger = logger;
-
-        /// <summary>
-		/// Determines whether this instance is authorized.
-		/// </summary>
-		/// <returns>
-		///   <c>true</c> if this instance is authorized; otherwise, <c>false</c>.
-		/// </returns>
-        protected bool IsAuthorized()
-        {
-            try
-            {
-                var authorizationHeader = HttpContext.Request.Headers.Authorization.ToString();
-                if (string.IsNullOrWhiteSpace(authorizationHeader))
-                {
-                    this._logger.LogError(LoggingConstants.AuthorizationMissingMessage);
-                    return false;
-                }
-
-                var tokenValue = authorizationHeader.Replace(BearerConstant, string.Empty, StringComparison.OrdinalIgnoreCase).Trim();
-                if (string.IsNullOrEmpty(tokenValue))
-                {
-                    this._logger.LogError(LoggingConstants.TokenMissingMessage);
-                    return false;
-                }
-
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var jwtToken = tokenHandler.ReadJwtToken(tokenValue);
-
-                var applicationId = jwtToken.Claims.FirstOrDefault(c => c.Type == "appid")?.Value;
-                var clientId = _configuration[ClientIdConstant];
-                if (!string.Equals(applicationId, clientId, StringComparison.Ordinal))
-                {
-                    this._logger.LogError(LoggingConstants.ApplicationIdMismatchMessage);
-                    return false;
-                }
-
-                var tokenExpiryTime = jwtToken.Claims.FirstOrDefault(c => c.Type == "exp")?.Value;
-                if (string.IsNullOrEmpty(tokenExpiryTime) || !double.TryParse(tokenExpiryTime, out var expiryTimestamp))
-                {
-                    this._logger.LogError(LoggingConstants.TokenExpiryMissingMessage);
-                    return false;
-                }
-
-                var expiryTime = DateTime.UnixEpoch.AddSeconds(expiryTimestamp);
-                if (DateTime.UtcNow > expiryTime)
-                {
-                    this._logger.LogError(LoggingConstants.TokenExpiredMessageConstant);
-                    return false;
-                }
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                this._logger.LogError(ex, string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodFailed, nameof(IsAuthorized), DateTime.UtcNow, ex.Message));
-                throw;
-            }
-        }
-
-        /// <summary>
-		/// Handles the bad request.
-		/// </summary>
-		/// <returns>The unauthorized object result</returns>
-		protected UnauthorizedObjectResult HandleUnAuthorizedRequest()
-        {
-            var responseData = new ResponseDTO()
-            {
-                Data = LoggingConstants.UserUnauthorizedMessageConstant,
-                StatusCode = (int)HttpStatusCode.Unauthorized,
-                IsSuccess = false,
-            };
-            return this.Unauthorized(responseData);
-        }
-
         /// <summary>
 		/// Handles the success result.
 		/// </summary>

@@ -18,11 +18,10 @@ namespace IBBS.AI.API.Controllers
 	/// </summary>
     /// <param name="bulletinAIServices">The Bulletin AI Services</param>
     /// <param name="logger">The logger</param>
-    /// <param name="configuration">The Configuration</param>
     [ApiController]
     [Route(RouteConstants.AiBase_RoutePrefix)]
     public class BulletinAiController(
-        IBulletinAIServices bulletinAIServices, ILogger<BulletinAiController> logger, IConfiguration configuration) : BaseController(configuration, logger)
+        IBulletinAIServices bulletinAIServices, ILogger<BulletinAiController> logger) : BaseController
     {
         /// <summary>
         /// The bulletin ai services.
@@ -47,7 +46,6 @@ namespace IBBS.AI.API.Controllers
             try
             {
                 this._logger.LogInformation(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodStart, nameof(RewriteTextAsync), DateTime.UtcNow));
-                if (this.IsAuthorized())
                 {
                     var result = await this._bulletinAiServices.RewriteTextAsync(requestDto.Story).ConfigureAwait(false);
                     if (string.IsNullOrEmpty(result))
@@ -63,7 +61,6 @@ namespace IBBS.AI.API.Controllers
                     }
                 }
 
-                return this.HandleUnAuthorizedRequest();
             }
             catch (Exception ex)
             {
