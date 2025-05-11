@@ -10,10 +10,7 @@ namespace IBBS.AI.API
     using Azure.Identity;
     using IBBS.AI.API.Configuration;
     using IBBS.AI.API.Middleware;
-    using IBBS.AI.Business.Contracts;
-    using IBBS.AI.Business.Services;
     using IBBS.AI.Shared.Constants;
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.OpenApi.Models;
 
     /// <summary>
@@ -41,6 +38,7 @@ namespace IBBS.AI.API
                 });
 
             builder.AddAzureServices(credentials);
+            builder.ConfigureApiServices();
             builder.Services.ConfigureServices(builder.Configuration);
 
             var app = builder.Build();
@@ -53,14 +51,6 @@ namespace IBBS.AI.API
         /// <param name="services">The services.</param>
         public static void ConfigureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => {
-                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateLifetime = true
-                    };
-                });
             services.AddControllers();
             services.AddOpenApi();
             services.AddCors(options =>
@@ -72,10 +62,6 @@ namespace IBBS.AI.API
                     .AllowAnyMethod();
                 });
             });
-
-            services.AddSingleton(KernelFactory.CreateKernel(configuration));
-            services.AddSingleton(KernelFactory.CreateMemory(configuration));
-            services.AddScoped<IBulletinAIServices, BulletinAIServices>();
 
             services.AddSwaggerGen(c =>
             {
