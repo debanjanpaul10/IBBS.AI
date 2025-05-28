@@ -1,6 +1,0 @@
-POST https://localhost:46469/BulletinAI/RewriteText
-Content-Type: application/json
-
-{
-    "Hello. Iam a software. Developer. Nyc to meet you"
-}
