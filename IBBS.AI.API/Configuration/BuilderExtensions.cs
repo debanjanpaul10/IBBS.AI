@@ -7,6 +7,7 @@
 
 namespace IBBS.AI.API.Configuration
 {
+    using System.Globalization;
     using System.Security.Claims;
     using Azure.Identity;
     using IBBS.AI.Shared.Constants;
@@ -66,24 +67,22 @@ namespace IBBS.AI.API.Configuration
             var configuration = builder.Configuration;
             builder.Services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                options.Authority = $"https://{configuration[Auth0DomainConstant]}";
-                options.Audience = configuration[Auth0AudienceConstant];
+                options.Authority = string.Format(CultureInfo.CurrentCulture, TokenFormatUrl, configuration[AzureAdTenantIdConstant]);
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidAudience = configuration[IbbsAiAdClientIdConstant],
+                    ValidateLifetime = true,
+                };
                 options.Events = new JwtBearerEvents
                 {
-                    OnTokenValidated = async context =>
-                    {
-                        await context.HandleAuthTokenValidationSuccessAsync();
-                    },
-                    OnAuthenticationFailed = async context =>
-                        {
-                            await context.HandleAuthTokenValidationFailedAsync();
-                        }
+                    OnTokenValidated = HandleAuthTokenValidationSuccessAsync,
+                    OnAuthenticationFailed = HandleAuthTokenValidationFailedAsync
                 };
             });
+
         }
 
         /// <summary>
@@ -93,7 +92,7 @@ namespace IBBS.AI.API.Configuration
         private static void ConfigureBusinessDependencies(this WebApplicationBuilder builder)
         {
             builder.Services.AddSingleton(KernelFactory.CreateKernel(builder.Configuration));
-            builder.Services.AddSingleton(KernelFactory.CreateMemory(builder.Configuration));
+            builder.Services.AddSingleton(KernelFactory.CreateMemory());
             builder.Services.AddScoped<IBulletinAIServices, BulletinAIServices>();
         }
 

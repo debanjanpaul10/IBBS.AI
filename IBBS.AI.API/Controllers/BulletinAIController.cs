@@ -20,8 +20,7 @@ namespace IBBS.AI.API.Controllers
     /// <param name="logger">The logger</param>
     [ApiController]
     [Route(RouteConstants.AiBase_RoutePrefix)]
-    public class BulletinAiController(
-        IBulletinAIServices bulletinAIServices, ILogger<BulletinAiController> logger) : BaseController
+    public class BulletinAiController(IBulletinAIServices bulletinAIServices, ILogger<BulletinAiController> logger) : BaseController
     {
         /// <summary>
         /// The bulletin ai services.
