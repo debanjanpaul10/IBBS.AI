@@ -13,11 +13,6 @@ namespace IBBS.AI.Shared.Constants
     public static class PromptsConstants
     {
         /// <summary>
-        /// The plugins directory.
-        /// </summary>
-        public const string PluginsDirectory = @"Plugins\RewriteTextPlugins";
-
-        /// <summary>
         /// The rewrite plugins.
         /// </summary>
         public const string RewritePlugins = "RewriteTextPlugins";

@@ -7,6 +7,7 @@
 
 namespace IBBS.AI.API.Configuration
 {
+    using IBBS.AI.Business.Plugins;
     using IBBS.AI.Shared.Constants;
     using Microsoft.SemanticKernel;
     using Microsoft.SemanticKernel.Memory;
@@ -23,7 +24,7 @@ namespace IBBS.AI.API.Configuration
         /// Creates memory.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        public static Func<IServiceProvider, ISemanticTextMemory> CreateMemory(IConfiguration configuration)
+        public static Func<IServiceProvider, ISemanticTextMemory> CreateMemory()
         {
             return provider =>
             {
@@ -53,12 +54,12 @@ namespace IBBS.AI.API.Configuration
                     kernelBuilder.AddGoogleAIGeminiChatCompletion(modelId, apiKey);
                     kernelBuilder.AddGoogleAIEmbeddingGeneration(modelId, apiKey);
 
-                    kernelBuilder.Services.AddSingleton(CreateMemory(configuration));
+                    kernelBuilder.Services.AddSingleton(CreateMemory());
                 }
                 var kernel = kernelBuilder.Build();
 
                 // Import Plugins
-                kernel.ImportPluginFromPromptDirectory(Path.Join(AppContext.BaseDirectory, PromptsConstants.PluginsDirectory));
+                kernel.Plugins.AddFromType<RewriteTextPlugin>(PromptsConstants.RewritePlugins);
 
                 return kernel;
             };

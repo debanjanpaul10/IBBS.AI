@@ -1,49 +1,51 @@
 name: Build and Deploy IBBS.AI
 
+env:
+    API_PROJECT_PATH: IBBS.AI.API/IBBS.AI.API.csproj
+
 on:
-  workflow_dispatch:
-    inputs:
-      deploy_api:
-        description: 'IBBS.AI.API'
-        required: false
-        default: true
-        type: boolean
+    workflow_dispatch:
+        inputs:
+            deploy_api:
+                description: "IBBS.AI.API"
+                required: false
+                default: true
+                type: boolean
 
 jobs:
-  # STEP: BUILD AND DEPLOY API
-  build-and-deploy-api:
-    name: Build and Deploy IBBS.AI.API
-    if: ${{ inputs.deploy_api }}
-    runs-on: ubuntu-latest
+    # STEP: BUILD AND DEPLOY API
+    build-and-deploy-api:
+        name: Build and Deploy IBBS.AI.API
+        if: ${{ inputs.deploy_api }}
+        runs-on: ubuntu-latest
 
-    steps:
-    # Checkout the repository
-    - name: Checkout code
-      uses: actions/checkout@v3
+        steps:
+            # Checkout the repository
+            - name: Checkout code
+              uses: actions/checkout@v3
 
-    # Setup .NET
-    - name: Set up .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '9.0.x'
+            # Setup .NET
+            - name: Set up .NET
+              uses: actions/setup-dotnet@v3
+              with:
+                  dotnet-version: "9.0.x"
 
-    # Install dependencies and build the project
-    - name: Install dependencies and Build solution
-      run:  |
-        dotnet restore IBBS.AI.API/IBBS.AI.API.csproj
-        dotnet build IBBS.AI.API/IBBS.AI.API.csproj --configuration Release --no-restore
+            # Install dependencies and build the project
+            - name: Install dependencies and Build solution
+              run: |
+                  dotnet restore ${{ env.API_PROJECT_PATH }}
+                  dotnet build ${{ env.API_PROJECT_PATH }} --configuration Release --no-restore
 
-    # Publish the project to a folder
-    - name: Publish the project
-      run:  |
-        dotnet publish IBBS.AI.API/IBBS.AI.API.csproj --configuration Releaase --output ./publish
+            # Publish the project to a folder
+            - name: Publish the project
+              run: |
+                  dotnet publish ${{ env.API_PROJECT_PATH }} --configuration Release --output ./publish-ai-api
 
-    # Deploy to Azure App Service
-    - name: Deploy to Azure Web App
-      uses: Azure/webapps-deploy@v2
-      with:
-        app-name: app-webapi-internet-bulletin-ai
-        slot-name: production
-        publish-profile: ${{ secrets.AZURE_WEBAPI_PUBLISH_PROFILE }}
-        package: ./publish
-    
+            # Deploy to Azure App Service
+            - name: Deploy to Azure Web App
+              uses: Azure/webapps-deploy@v2
+              with:
+                  app-name: app-webapi-internet-bulletin-ai
+                  slot-name: production
+                  publish-profile: ${{ secrets.AZURE_WEBAPI_PUBLISH_PROFILE }}
+                  package: ./publish-ai-api
