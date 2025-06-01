@@ -72,13 +72,14 @@ namespace IBBS.AI.Shared.Constants
         /// <summary>
         /// The token format url.
         /// </summary>
+
         public const string TokenFormatUrl = "https://login.microsoftonline.com/{0}/v2.0";
 
         /// <summary>
         /// The azure ad tenant id constant.
         /// </summary>
         public const string AzureAdTenantIdConstant = "AzureAdB2C:TenantId";
-
-        #endregion
+      
+        #endregon
     }
 }
