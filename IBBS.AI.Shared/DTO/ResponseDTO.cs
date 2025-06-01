@@ -34,6 +34,6 @@ namespace IBBS.AI.Shared.DTO
         /// <value>
         /// The data.
         /// </value>
-        public object Data { get; set; }
+        public object Data { get; set; } = new object();
     }
 }

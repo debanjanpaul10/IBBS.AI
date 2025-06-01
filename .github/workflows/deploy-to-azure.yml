@@ -40,7 +40,7 @@ jobs:
             # Publish the project to a folder
             - name: Publish the project
               run: |
-                  dotnet publish ${{ env.API_PROJECT_PATH }} --configuration Release --output ./publish-ai-api
+                  dotnet publish ${{ env.API_PROJECT_PATH }} --configuration Release --no-build --output ./publish-ai-api
 
             # Deploy to Azure App Service
             - name: Deploy to Azure Web App
