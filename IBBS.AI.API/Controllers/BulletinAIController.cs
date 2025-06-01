@@ -18,6 +18,7 @@ namespace IBBS.AI.API.Controllers
 	/// </summary>
     /// <param name="bulletinAIServices">The Bulletin AI Services</param>
     /// <param name="logger">The logger</param>
+    /// <seealso cref="BaseController"/>
     [ApiController]
     [Route(RouteConstants.AiBase_RoutePrefix)]
     public class BulletinAiController(IBulletinAIServices bulletinAIServices, ILogger<BulletinAiController> logger) : BaseController
@@ -40,7 +41,7 @@ namespace IBBS.AI.API.Controllers
         /// <exception cref="Exception"></exception>
         [HttpPost]
         [Route(RouteConstants.RewriteText_Route)]
-        public async Task<IActionResult> RewriteTextAsync(RewriteRequestDTO requestDto)
+        public async Task<string> RewriteTextAsync(RewriteRequestDTO requestDto)
         {
             try
             {
@@ -56,7 +57,7 @@ namespace IBBS.AI.API.Controllers
                     }
                     else
                     {
-                        return this.HandleSuccessResult(result);
+                        return result;
                     }
                 }
 
@@ -64,7 +65,7 @@ namespace IBBS.AI.API.Controllers
             catch (Exception ex)
             {
                 this._logger.LogError(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodFailed, nameof(RewriteTextAsync), DateTime.UtcNow, ex.Message));
-                return this.BadRequest(ex.Message);
+                throw;
             }
             finally
             {
