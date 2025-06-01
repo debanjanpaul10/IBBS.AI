@@ -57,14 +57,29 @@ namespace IBBS.AI.Shared.Constants
         /// </summary>
         public const string LocalAppsetingsFileName = "appsettings.development.json";
 
-        /// <summary>
-        /// The auth0 domain constant.
-        /// </summary>
-        public const string Auth0DomainConstant = "Auth0:Domain";
+        #region Azure AD
 
         /// <summary>
-        /// The audience constant.
+        /// The ibbs ai ad client id constant.
         /// </summary>
-        public const string Auth0AudienceConstant = "Auth0:AIAudience";
+        public const string IbbsAiAdClientIdConstant = "AzureAD:IBBS.AI:ClientId";
+
+        /// <summary>
+        /// The ibbs ai ad client secret constant.
+        /// </summary>
+        public const string IbbsAiAdClientSecretConstant = "AzureAD:IBBS.AI:ClientSecret";
+
+        /// <summary>
+        /// The token format url.
+        /// </summary>
+
+        public const string TokenFormatUrl = "https://login.microsoftonline.com/{0}/v2.0";
+
+        /// <summary>
+        /// The azure ad tenant id constant.
+        /// </summary>
+        public const string AzureAdTenantIdConstant = "AzureAdB2C:TenantId";
+      
+        #endregon
     }
 }

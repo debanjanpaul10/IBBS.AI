@@ -17,6 +17,6 @@ namespace IBBS.AI.Shared.DTO
         /// <value>
         /// The story.
         /// </value>
-        public string Story { get; set; }
+        public string Story { get; set; } = string.Empty;
     }
 }
