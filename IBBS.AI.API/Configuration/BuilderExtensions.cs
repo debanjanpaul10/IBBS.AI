@@ -10,12 +10,12 @@ namespace IBBS.AI.API.Configuration
     using System.Globalization;
     using System.Security.Claims;
     using Azure.Identity;
-    using IBBS.AI.Shared.Constants;
+    using IBBS.AI.API.Controllers;
     using IBBS.AI.Business.Contracts;
     using IBBS.AI.Business.Services;
-    using IBBS.AI.API.Controllers;
-    using Microsoft.Extensions.Configuration.AzureAppConfiguration;
+    using IBBS.AI.Shared.Constants;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.Extensions.Configuration.AzureAppConfiguration;
     using static IBBS.AI.Shared.Constants.ConfigurationConstants;
 
     /// <summary>
@@ -29,9 +29,10 @@ namespace IBBS.AI.API.Configuration
         /// <param name="builder">The builder.</param>
         /// <param name="credentials">The credentials.</param>
         /// <exception cref="InvalidOperationException">InvalidOperationException error.</exception>
-        public static void AddAzureServices(this WebApplicationBuilder builder, DefaultAzureCredential credentials)
+        public static void ConfigureAzureAppConfiguration(this WebApplicationBuilder builder, DefaultAzureCredential credentials)
         {
-            var appConfigurationEndpoint = builder.Configuration[AppConfigurationEndpointKeyConstant];
+            var configuration = builder.Configuration;
+            var appConfigurationEndpoint = configuration[AppConfigurationEndpointKeyConstant];
             if (string.IsNullOrEmpty(appConfigurationEndpoint))
             {
                 throw new InvalidOperationException(LoggingConstants.MissingConfigurationMessage);

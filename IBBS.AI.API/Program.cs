@@ -37,9 +37,9 @@ namespace IBBS.AI.API
                     ManagedIdentityClientId = miCredentials,
                 });
 
-            builder.AddAzureServices(credentials);
+            builder.ConfigureAzureAppConfiguration(credentials);
             builder.ConfigureApiServices();
-            builder.Services.ConfigureServices(builder.Configuration);
+            builder.Services.ConfigureServices();
 
             var app = builder.Build();
             app.ConfigureApplication();
@@ -49,7 +49,7 @@ namespace IBBS.AI.API
         /// Configures the services.
         /// </summary>
         /// <param name="services">The services.</param>
-        public static void ConfigureServices(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureServices(this IServiceCollection services)
         {
             services.AddControllers();
             services.AddOpenApi();
