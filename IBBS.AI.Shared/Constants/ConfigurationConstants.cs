@@ -79,7 +79,7 @@ namespace IBBS.AI.Shared.Constants
         /// The azure ad tenant id constant.
         /// </summary>
         public const string AzureAdTenantIdConstant = "AzureAdB2C:TenantId";
-      
-        #endregon
+
+        #endregion
     }
 }
