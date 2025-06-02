@@ -7,11 +7,11 @@
 
 namespace IBBS.AI.Business.Plugins
 {
+	using System.ComponentModel;
 	using IBBS.AI.Shared.Constants;
 	using IBBS.AI.Shared.DTO;
 	using Microsoft.SemanticKernel;
 	using Newtonsoft.Json;
-	using System.ComponentModel;
 
 	/// <summary>
 	/// Rewrite text plugin.
@@ -33,15 +33,14 @@ namespace IBBS.AI.Business.Plugins
 			}};
 
 			var result = await kernel.InvokePromptAsync(PluginHelpers.RewriteUserStoryPlugin.FunctionInstructions, arguments).ConfigureAwait(false);
-			
-			// Get the tokens consumed from the result metadata
-			var tokensConsumed = result.Metadata?["TotalTokenCount"] ?? 0;
-			
-			// Return both the rewritten text and tokens consumed as JSON
+			var aiMetadata = result.Metadata;
+
 			return JsonConvert.SerializeObject(new RewriteResponseDTO
 			{
 				RewrittenStory = result.GetValue<string>() ?? string.Empty,
-				TokensConsumed = Convert.ToInt32(tokensConsumed)
+				TotalTokensConsumed = Convert.ToInt32(aiMetadata?[PromptsConstants.TotalTokenCountConstant] ?? 0),
+				CandidatesTokenCount = Convert.ToInt32(aiMetadata?[PromptsConstants.CandidatesTokenCountConstant] ?? 0),
+				PromptTokenCount = Convert.ToInt32(aiMetadata?[PromptsConstants.PromptTokenCountConstant] ?? 0)
 			});
 		}
 	}

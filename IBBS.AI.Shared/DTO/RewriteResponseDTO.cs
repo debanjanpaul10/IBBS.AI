@@ -13,19 +13,23 @@ namespace IBBS.AI.Shared.DTO
 	public class RewriteResponseDTO
 	{
 		/// <summary>
-		/// Gets or sets the rewritten story data
+		/// The rewrittent story.
 		/// </summary>
-		/// <value>
-		/// The rewritten story data.
-		/// </value>
 		public string RewrittenStory { get; set; } = string.Empty;
 
 		/// <summary>
-		/// Gets or sets the tokens consumed.
+		/// The total tokens consumed.
 		/// </summary>
-		/// <value>
-		/// The tokens consumed.
-		/// </value>
-		public int TokensConsumed { get; set; }
+		public int TotalTokensConsumed { get; set; }
+
+		/// <summary>
+		/// The candidates token count.
+		/// </summary>
+		public int CandidatesTokenCount { get; set; }
+
+		/// <summary>
+		/// The prompt token count.
+		/// </summary>
+		public int PromptTokenCount { get; set; }
 	}
 }
