@@ -57,8 +57,6 @@ namespace IBBS.AI.Shared.Constants
         /// </summary>
         public const string LocalAppsetingsFileName = "appsettings.development.json";
 
-        #region Azure AD
-
         /// <summary>
         /// The ibbs ai ad client id constant.
         /// </summary>
@@ -80,6 +78,5 @@ namespace IBBS.AI.Shared.Constants
         /// </summary>
         public const string AzureAdTenantIdConstant = "AzureAdB2C:TenantId";
       
-        #endregon
     }
 }
