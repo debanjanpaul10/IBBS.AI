@@ -6,7 +6,7 @@
                 "ResourceType": "App Service"
             },
             {
-                "Name": "appcs-internet-bulletin-service",
+                "Name": "appcs-internet-bulletin",
                 "ResourceType": "App Configuration"
             },
             {
@@ -55,12 +55,12 @@
             "app-webapi-internet-bulletin-ai": [
                 {
                     "name": "AppConfigurationEndpoint",
-                    "value": "https://appcs-internet-bulletin-service.azconfig.io",
+                    "value": "https://appcs-internet-bulletin.azconfig.io",
                     "slotSetting": true
                 },
                 {
                     "name": "ManagedIdentityClientId",
-                    "value": "907bca1b-9901-4ec6-b33d-d08ea1c70283",
+                    "value": "6d6bef6f-0e83-4a56-a325-3f3d516e2245",
                     "slotSetting": true
                 }
             ]
