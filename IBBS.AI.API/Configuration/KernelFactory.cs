@@ -8,7 +8,6 @@
 namespace IBBS.AI.API.Configuration
 {
     using IBBS.AI.Core.Plugins;
-    using IBBS.AI.Shared.Constants;
     using Microsoft.SemanticKernel;
     using Microsoft.SemanticKernel.Memory;
     using static IBBS.AI.Shared.Constants.ConfigurationConstants;
@@ -59,7 +58,8 @@ namespace IBBS.AI.API.Configuration
                 var kernel = kernelBuilder.Build();
 
                 // Import Plugins
-                kernel.Plugins.AddFromType<RewriteTextPlugin>(PromptsConstants.RewritePlugins);
+                kernel.Plugins.AddFromType<RewriteTextPlugin>(PluginHelpers.RewriteTextPlugin.PluginName);
+                kernel.Plugins.AddFromType<ContentPlugins>(PluginHelpers.ContentPlugins.PluginName);
 
                 return kernel;
             };

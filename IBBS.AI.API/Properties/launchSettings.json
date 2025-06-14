@@ -9,14 +9,6 @@
 			"hotReloadEnabled": true,
 			"dotnetRunMessages": true,
 			"applicationUrl": "https://localhost:46469;http://localhost:4649"
-		},
-		"IIS Express": {
-			"commandName": "IISExpress",
-			"launchBrowser": false,
-			"hotReloadEnabled": true,
-			"environmentVariables": {
-				"ASPNETCORE_ENVIRONMENT": "Development"
-			}
 		}
 	},
 	"$schema": "https://json.schemastore.org/launchsettings.json",
