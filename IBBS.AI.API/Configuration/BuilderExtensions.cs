@@ -10,11 +10,10 @@ namespace IBBS.AI.API.Configuration
     using System.Globalization;
     using System.Security.Claims;
     using Azure.Identity;
-    using IBBS.AI.API.Controllers;
-    using IBBS.AI.Business.Contracts;
-    using IBBS.AI.Business.Services;
     using IBBS.AI.Shared.Constants;
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using IBBS.AI.Core.Contracts;
+    using IBBS.AI.Core.Services;
+    using IBBS.AI.API.Controllers;
     using Microsoft.Extensions.Configuration.AzureAppConfiguration;
     using static IBBS.AI.Shared.Constants.ConfigurationConstants;
 
@@ -69,6 +68,7 @@ namespace IBBS.AI.API.Configuration
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
                 options.Authority = string.Format(CultureInfo.CurrentCulture, TokenFormatUrl, configuration[AzureAdTenantIdConstant]);

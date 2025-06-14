@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IBBS.AI.API", "IBBS.AI.API\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IBBS.AI.Shared", "IBBS.AI.Shared\IBBS.AI.Shared.csproj", "{50EF3E4E-7AE1-4CBC-B7D9-9F7A0A059ED9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IBBS.AI.Business", "IBBS.AI.Business\IBBS.AI.Business.csproj", "{315CF9E4-7FEE-4704-939D-ECEE05BBD445}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IBBS.AI.Core", "IBBS.AI.Core\IBBS.AI.Core.csproj", "{315CF9E4-7FEE-4704-939D-ECEE05BBD445}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
