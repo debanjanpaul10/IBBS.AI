@@ -16,6 +16,7 @@ namespace IBBS.AI.API.Configuration
     using IBBS.AI.API.Controllers;
     using Microsoft.Extensions.Configuration.AzureAppConfiguration;
     using static IBBS.AI.Shared.Constants.ConfigurationConstants;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
 
     /// <summary>
     /// Builder extensions.
