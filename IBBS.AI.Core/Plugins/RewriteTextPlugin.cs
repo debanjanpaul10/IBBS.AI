@@ -5,7 +5,7 @@
 // <summary>Rewrite text plugin.</summary>
 // *********************************************************************************
 
-namespace IBBS.AI.Business.Plugins
+namespace IBBS.AI.Core.Plugins
 {
 	using System.ComponentModel;
 	using IBBS.AI.Shared.Constants;

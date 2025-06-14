@@ -7,7 +7,7 @@
 
 namespace IBBS.AI.API.Configuration
 {
-    using IBBS.AI.Business.Plugins;
+    using IBBS.AI.Core.Plugins;
     using IBBS.AI.Shared.Constants;
     using Microsoft.SemanticKernel;
     using Microsoft.SemanticKernel.Memory;

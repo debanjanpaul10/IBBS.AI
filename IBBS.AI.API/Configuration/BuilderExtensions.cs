@@ -11,8 +11,8 @@ namespace IBBS.AI.API.Configuration
     using System.Security.Claims;
     using Azure.Identity;
     using IBBS.AI.Shared.Constants;
-    using IBBS.AI.Business.Contracts;
-    using IBBS.AI.Business.Services;
+    using IBBS.AI.Core.Contracts;
+    using IBBS.AI.Core.Services;
     using IBBS.AI.API.Controllers;
     using Microsoft.Extensions.Configuration.AzureAppConfiguration;
     using Microsoft.AspNetCore.Authentication.JwtBearer;

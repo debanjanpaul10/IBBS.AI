@@ -27,8 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IBBS.AI.Core\IBBS.AI.Core.csproj" />
     <ProjectReference Include="..\IBBS.AI.Shared\IBBS.AI.Shared.csproj" />
-    <ProjectReference Include="..\IBBS.AI.Business\IBBS.AI.Business.csproj" />
   </ItemGroup>
 
 </Project>

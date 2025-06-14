@@ -4,7 +4,7 @@
 //	</copyright>
 // <summary>Plugin helpers.</summary>
 // *********************************************************************************
-namespace IBBS.AI.Business.Plugins
+namespace IBBS.AI.Core.Plugins
 {
     /// <summary>
     /// Plugin helpers.
