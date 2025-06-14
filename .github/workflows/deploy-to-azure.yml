@@ -36,7 +36,7 @@ jobs:
 
             - name: Publish the project
               run: |
-                  dotnet publish ${{ env.API_PROJECT_PATH }} --configuration Release --output ./publish-ai-api
+                  dotnet publish ${{ env.API_PROJECT_PATH }} --configuration Release --no-build --output ./publish-ai-api
 
             - name: Set artifact path
               id: set-artifact-path

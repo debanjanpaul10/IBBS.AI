@@ -37,7 +37,7 @@ namespace IBBS.AI.API
                     ManagedIdentityClientId = miCredentials,
                 });
 
-            builder.AddAzureServices(credentials);
+            builder.ConfigureAzureAppConfiguration(credentials);
             builder.ConfigureApiServices();
             builder.Services.ConfigureServices();
 
