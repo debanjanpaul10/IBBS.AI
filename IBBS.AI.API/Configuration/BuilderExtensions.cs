@@ -68,6 +68,7 @@ namespace IBBS.AI.API.Configuration
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
                 options.Authority = string.Format(CultureInfo.CurrentCulture, TokenFormatUrl, configuration[AzureAdTenantIdConstant]);
