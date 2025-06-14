@@ -5,8 +5,7 @@
 // <summary>Bulletin Board AI services interface.</summary>
 // *********************************************************************************
 
-
-namespace IBBS.AI.Business.Contracts
+namespace IBBS.AI.Core.Contracts
 {
 	using IBBS.AI.Shared.DTO;
 

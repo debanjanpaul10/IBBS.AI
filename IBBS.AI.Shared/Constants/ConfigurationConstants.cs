@@ -37,15 +37,6 @@ namespace IBBS.AI.Shared.Constants
         /// </summary>
         public const string IbbsAIAppConfigKeyConstant = "IBBS.AI";
 
-        /// <summary>
-        /// The client id constant.
-        /// </summary>
-        public const string ClientIdConstant = "ClientId";
-
-        /// <summary>
-        /// The bearer constant.
-        /// </summary>
-        public const string BearerConstant = "Bearer";
 
         /// <summary>
         /// The gemini ai model id constant.
@@ -60,23 +51,22 @@ namespace IBBS.AI.Shared.Constants
         /// <summary>
         /// The ibbs ai ad client id constant.
         /// </summary>
-        public const string IbbsAiAdClientIdConstant = "AzureAD:IBBS.AI:ClientId";
+        public const string IbbsAiAdClientIdConstant = "IbbsAiApiClientId";
 
         /// <summary>
         /// The ibbs ai ad client secret constant.
         /// </summary>
-        public const string IbbsAiAdClientSecretConstant = "AzureAD:IBBS.AI:ClientSecret";
+        public const string IbbsAiAdClientSecretConstant = "IbbsAiClientSecret";
 
         /// <summary>
         /// The token format url.
         /// </summary>
-
         public const string TokenFormatUrl = "https://login.microsoftonline.com/{0}/v2.0";
 
         /// <summary>
         /// The azure ad tenant id constant.
         /// </summary>
-        public const string AzureAdTenantIdConstant = "AzureAdB2C:TenantId";
-      
+        public const string AzureAdTenantIdConstant = "TenantId";
+
     }
 }

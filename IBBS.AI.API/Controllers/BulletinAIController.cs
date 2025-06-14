@@ -8,7 +8,7 @@
 namespace IBBS.AI.API.Controllers
 {
 	using System.Globalization;
-	using IBBS.AI.Business.Contracts;
+	using IBBS.AI.Core.Contracts;
 	using IBBS.AI.Shared.Constants;
 	using IBBS.AI.Shared.DTO;
 	using Microsoft.AspNetCore.Mvc;

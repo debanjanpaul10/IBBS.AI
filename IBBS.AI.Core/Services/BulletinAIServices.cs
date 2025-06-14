@@ -5,9 +5,9 @@
 // <summary>Bulletin Board AI services interface.</summary>
 // *********************************************************************************
 
-namespace IBBS.AI.Business.Services
+namespace IBBS.AI.Core.Services
 {
-	using IBBS.AI.Business.Contracts;
+	using IBBS.AI.Core.Contracts;
 	using IBBS.AI.Shared.Constants;
 	using IBBS.AI.Shared.DTO;
 	using Microsoft.Extensions.Logging;
