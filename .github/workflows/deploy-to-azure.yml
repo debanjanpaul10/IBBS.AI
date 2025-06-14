@@ -67,4 +67,4 @@ jobs:
                   app-name: app-webapi-internet-bulletin-ai
                   slot-name: production
                   publish-profile: ${{ secrets.AZURE_WEBAPI_PUBLISH_PROFILE }}
-                  package: ./publish-api
+                  package: ./publish-ai-api
