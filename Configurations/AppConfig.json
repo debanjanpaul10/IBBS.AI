@@ -1,91 +1,77 @@
 {
-	"Azure": {
-		"AzureResources": [
-			{
-				"Name": "app-webapi-internet-bulletin-ai",
-				"ResourceType": "App Service"
-			},
-			{
-				"Name": "appcs-internet-bulletin-service",
-				"ResourceType": "App Configuration"
-			},
-			{
-				"Name": "mi-user-internet-bulletin",
-				"ResourceType": "User-assigned managed identity"
-			}
-		],
-		"AzureAppConfigSettings": [
-			{
-				"key": "GeminiAiModelId",
-				"label": "IBBS.AI",
-				"value": "gemini-2.0-flash",
-				"content_type": "",
-				"tags": {}
-			},
-			{
-				"key": "GeminiAPIKey",
-				"label": "IBBS.AI",
-				"value": "API Key value from Gemini app",
-				"content_type": "",
-				"tags": {}
-			},
-			{
-				"key": "ManagedIdentityClientId",
-				"label": "BaseConfiguration",
-				"value": "907bca1b-9901-4ec6-b33d-d08ea1c70283",
-				"content_type": "",
-				"tags": {}
-			},
-			{
-				"key": "GithubModelToken",
-				"label": "IBBS.AI",
-				"value": "<TOKEN_VALUE>",
-				"content_type": "",
-				"tags": {}
-			},
-			{
-				"key": "IbbsAiApiBaseUrl",
-				"label": "BaseConfiguration",
-				"value": "app-webapi-internet-bulletin-ai-e9eehngfd2f8d6dy.centralindia-01.azurewebsites.net/",
-				"content_type": "",
-				"tags": {}
-			},
-			{
-				"key": "AzureAD:IBBS.AI:ClientId",
-				"label": "BaseConfiguration",
-				"value": "f8ac7954-d9bf-40a5-84fb-2d39102ef1df",
-				"content_type": "",
-				"tags": {}
-			},
-			{
-				"key": "AzureAD:IBBS.AI:ClientSecret",
-				"label": "BaseConfiguration",
-				"value": "<CLIENT_SECRET>",
-				"content_type": "",
-				"tags": {}
-			}
-		],
-		"EnvironmentVariables": {
-			"app-webapi-internet-bulletin-ai": [
-				{
-					"name": "AppConfigurationEndpoint",
-					"value": "https://appcs-internet-bulletin-service.azconfig.io",
-					"slotSetting": true
-				},
-				{
-					"name": "ManagedIdentityClientId",
-					"value": "907bca1b-9901-4ec6-b33d-d08ea1c70283",
-					"slotSetting": true
-				}
-			]
-		},
-		"Github": {
-			"GithubActionsSecrets": [
-				{
-					"Name": "AZURE_WEBAPI_PUBLISH_PROFILE",
-					"Value": "value from azure app service of api"
-				}
-			]
-		}
-	}
+    "Azure": {
+        "AzureResources": [
+            {
+                "Name": "app-webapi-internet-bulletin-ai",
+                "ResourceType": "App Service"
+            },
+            {
+                "Name": "appcs-internet-bulletin-service",
+                "ResourceType": "App Configuration"
+            },
+            {
+                "Name": "mi-user-internet-bulletin",
+                "ResourceType": "User-assigned managed identity"
+            }
+        ],
+        "AzureAppConfigSettings": [
+            {
+                "key": "GeminiAiModelId",
+                "label": "IBBS.AI",
+                "value": "gemini-2.0-flash",
+                "content_type": "",
+                "tags": {}
+            },
+            {
+                "key": "GeminiAPIKey",
+                "label": "IBBS.AI",
+                "value": "<GEMINI_AI_KEY>",
+                "content_type": "",
+                "tags": {}
+            },
+            {
+                "key": "IbbsAiApiClientId",
+                "label": "BaseConfiguration",
+                "value": "db7e2d96-b2ec-44a3-9b7f-3f5cab406ce2",
+                "content_type": "",
+                "tags": {}
+            },
+            {
+                "key": "ManagedIdentityClientId",
+                "label": "BaseConfiguration",
+                "value": "6d6bef6f-0e83-4a56-a325-3f3d516e2245",
+                "content_type": "",
+                "tags": {}
+            },
+            {
+                "key": "TenantId",
+                "label": "BaseConfiguration",
+                "value": "499b9f66-f4dd-4c09-ab36-163bbc38a326",
+                "content_type": "",
+                "tags": {}
+            }
+        ],
+        "EnvironmentVariables": {
+            "app-webapi-internet-bulletin-ai": [
+                {
+                    "name": "AppConfigurationEndpoint",
+                    "value": "https://appcs-internet-bulletin-service.azconfig.io",
+                    "slotSetting": true
+                },
+                {
+                    "name": "ManagedIdentityClientId",
+                    "value": "907bca1b-9901-4ec6-b33d-d08ea1c70283",
+                    "slotSetting": true
+                }
+            ]
+        },
+        "Github": {
+            "GithubActionsSecrets": [
+                {
+                    "Name": "AZURE_WEBAPI_PUBLISH_PROFILE",
+                    "Value": "value from azure app service of api"
+                }
+            ]
+        }
+    }
 }
