@@ -7,6 +7,9 @@
 
 namespace IBBS.AI.Shared.DTO
 {
+	/// <summary>
+	/// The moderation content response DTO.
+	/// </summary>
 	public class ModerationContentResponseDTO
 	{
 		/// <summary>
