@@ -41,7 +41,7 @@ namespace IBBS.AI.API.Controllers
 		/// <exception cref="Exception"></exception>
 		[HttpPost]
 		[Route(RouteConstants.RewriteText_Route)]
-		public async Task<RewriteResponseDTO> RewriteTextAsync(RewriteRequestDTO requestDto)
+		public async Task<RewriteResponseDTO> RewriteTextAsync(UserStoryRequestDTO requestDto)
 		{
 			try
 			{
@@ -69,6 +69,82 @@ namespace IBBS.AI.API.Controllers
 			finally
 			{
 				this._logger.LogInformation(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodEnd, nameof(RewriteTextAsync), DateTime.UtcNow));
+			}
+		}
+
+		/// <summary>
+		/// Generates the tag for story asynchronous.
+		/// </summary>
+		/// <param name="requestDto">The request dto.</param>
+		/// <returns>The tag response dto.</returns>
+		[HttpPost]
+		[Route(RouteConstants.GenerateTag_Route)]
+		public async Task<TagResponseDTO> GenerateTagForStoryAsync(UserStoryRequestDTO requestDto)
+		{
+			try
+			{
+				this._logger.LogInformation(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodStart, nameof(GenerateTagForStoryAsync), DateTime.UtcNow));
+				{
+					var result = await this._bulletinAiServices.GenerateTagForStoryAsync(requestDto.Story).ConfigureAwait(false);
+					if (string.IsNullOrEmpty(result.UserStoryTag))
+					{
+						var exception = new Exception(LoggingConstants.AiServicesDownMessage);
+						this._logger.LogError(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodFailed, nameof(GenerateTagForStoryAsync), DateTime.UtcNow, exception.Message));
+						throw exception;
+					}
+					else
+					{
+						return result;
+					}
+				}
+
+			}
+			catch (Exception ex)
+			{
+				this._logger.LogError(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodFailed, nameof(GenerateTagForStoryAsync), DateTime.UtcNow, ex.Message));
+				throw;
+			}
+			finally
+			{
+				this._logger.LogInformation(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodEnd, nameof(GenerateTagForStoryAsync), DateTime.UtcNow));
+			}
+		}
+
+		/// <summary>
+		/// Moderates the content data asynchronous.
+		/// </summary>
+		/// <param name="requestDto">The request dto.</param>
+		/// <returns>The moderation content response.</returns>
+		[HttpPost]
+		[Route(RouteConstants.ModerateContent_Route)]
+		public async Task<ModerationContentResponseDTO> ModerateContentDataAsync(UserStoryRequestDTO requestDto)
+		{
+			try
+			{
+				this._logger.LogInformation(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodStart, nameof(ModerateContentDataAsync), DateTime.UtcNow));
+				{
+					var result = await this._bulletinAiServices.ModerateContentDataAsync(requestDto.Story).ConfigureAwait(false);
+					if (string.IsNullOrEmpty(result.ContentRating))
+					{
+						var exception = new Exception(LoggingConstants.AiServicesDownMessage);
+						this._logger.LogError(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodFailed, nameof(ModerateContentDataAsync), DateTime.UtcNow, exception.Message));
+						throw exception;
+					}
+					else
+					{
+						return result;
+					}
+				}
+
+			}
+			catch (Exception ex)
+			{
+				this._logger.LogError(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodFailed, nameof(ModerateContentDataAsync), DateTime.UtcNow, ex.Message));
+				throw;
+			}
+			finally
+			{
+				this._logger.LogInformation(string.Format(CultureInfo.CurrentCulture, LoggingConstants.LogHelperMethodEnd, nameof(ModerateContentDataAsync), DateTime.UtcNow));
 			}
 		}
 	}
